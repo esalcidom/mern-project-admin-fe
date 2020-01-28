@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import proyectoContext from './ProyectoContext';
 import proyectoReducer from './ProyectoReducer';
-import { OBTENER_PROYECTO, FORMULARIO_PROYECTO, AGREGAR_PROYECTO, VALIDAR_FORMULARIO, PROYECTO_ACTUAL } from '../../types/index';
+import { OBTENER_PROYECTO, FORMULARIO_PROYECTO, AGREGAR_PROYECTO, VALIDAR_FORMULARIO, PROYECTO_ACTUAL, ELIMINAR_PROYECTO } from '../../types/index';
 import uuid from 'uuid';
 
 const ProyectoState = props => {
@@ -64,6 +64,14 @@ const ProyectoState = props => {
         })
     }
 
+    //elimina un proyecto
+    const eliminarProyecto = proyectoId => {
+        dispatch({
+            type: ELIMINAR_PROYECTO,
+            payload: proyectoId
+        })
+    }
+
     return(
         <proyectoContext.Provider
             value={{
@@ -75,7 +83,8 @@ const ProyectoState = props => {
                 obtenerProyectos,
                 agregarProyecto,
                 mostrarError,
-                proyectoActual
+                proyectoActual,
+                eliminarProyecto
             }}
         >
             {props.children}

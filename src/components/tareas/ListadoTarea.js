@@ -1,11 +1,16 @@
 import React, { Fragment, useContext } from 'react';
 import Tarea from './Tarea';
 import ProyectoContext from '../../context/proyectos/ProyectoContext';
+import TareaContext from '../../context/tareas/TareaContext';
 
 const ListadoTarea = () => {
 
     const proyectoContext = useContext(ProyectoContext);
-    const { proyecto } = proyectoContext;
+    const { proyecto, eliminarProyecto } = proyectoContext;
+
+    //obtener las tareas del proyecto
+    const tareasContext = useContext(TareaContext);
+    const { tareasproyecto } = tareasContext;
     
     //si no hay proyecto seleccionado
     if(!proyecto){
@@ -15,31 +20,30 @@ const ListadoTarea = () => {
     //array destructuring para extraer proyecto seleccionado
     const [ proyectoActual ] = proyecto;
 
-    const tareasProyecto = [
-        { nombre: 'Elegir Plataforma', estado: true},
-        { nombre: 'Elegir Colores', estado: false},
-        { nombre: 'Elegir Hosting', estado: false}
-    ]
+
+    const onClickEliminar = () => {
+        eliminarProyecto(proyectoActual.id)
+    }
 
     return (
         <Fragment>
             <h2>Proyecto: {proyectoActual.nombre}</h2>
             <ul className="listado-tareas">
-                {tareasProyecto.length === 0 ? 
+                {tareasproyecto.length === 0 ? 
                     (
                         <li className="tarea">
                             <p>No hay tareas</p>
                         </li>
                     )
                     :
-                    tareasProyecto.map(tarea => (
+                    tareasproyecto.map(tarea => (
                             <Tarea 
                                 tarea={tarea}
                             />
                         ))
                 }
             </ul>
-            <button type="button" className="btn btn-eliminar">Eliminar Proyecto &times;</button>
+            <button type="button" className="btn btn-eliminar" onClick={onClickEliminar}>Eliminar Proyecto &times;</button>
         </Fragment>
     );
 };
